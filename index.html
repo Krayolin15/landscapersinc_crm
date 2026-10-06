@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Landscapers Inc. HQ — the company's workspace, CRM, operations, HR & safety, finance and AI hub.">
+<meta name="theme-color" content="#103d24">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LSI HQ">
+<title>Landscapers Inc. HQ</title>
+
+<!-- Only the hosts this app actually uses. Libraries are vendored in /vendor.
+     Supabase (cloud mode), Google Fonts, Jitsi (Meet) and OpenStreetMap tiles (Maps). -->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self';
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com data:;
+  img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.supabase.co;
+  media-src 'self' blob: https://*.supabase.co;
+  frame-src 'self' blob: https://meet.jit.si https://*.supabase.co;
+  connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.open-meteo.com;
+  worker-src 'self' blob:;
+  object-src 'none'; base-uri 'self'; form-action 'self';">
+
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- crossorigin lets the service worker keep a copy, so after the first visit the fonts never wait for the network -->
+<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/apps.css">
+
+<!-- Vendored libraries (pinned; no CDN needed, works offline). Only the small ones load at start;
+     Excel, PDF, charts, maps, zip and Supabase load the first time a screen needs them (js/core/lazy.js). -->
+<script src="vendor/lucide.min.js" defer></script>
+<script src="vendor/confetti.browser.min.js" defer></script>
+<script src="vendor/signature_pad.umd.min.js" defer></script>
+<!-- js/boot.js starts the app: the modules in js/ when served, or js/app.bundle.js (the same code as one
+     script) when this file is opened by double-clicking it — browsers refuse modules from local files. -->
+<script src="js/settings.js"></script>
+<script src="js/boot.js"></script>
+</head>
+<body>
+  <a href="#main" class="sr-only">Skip to content</a>
+  <div id="app">
+    <!-- shown the moment the page arrives; js/main.js keeps it and fills in the progress -->
+    <div class="splash" style="min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px">
+      <div class="aurora"><span></span><span></span><span></span><span></span></div>
+      <div class="stack" style="align-items:center;gap:18px">
+        <img src="assets/landscapers-logo.jpg" alt="" style="width:110px;height:110px;border-radius:30px;box-shadow:var(--shadow-lg);animation:popIn .8s var(--ease-spring) both, float 4s 1s ease-in-out infinite">
+        <h2 style="font-family:var(--font-display)">Landscapers Inc. HQ</h2>
+        <div class="progress" style="width:240px"><i id="boot-bar" style="width:8%;transition:width .35s var(--ease-out)"></i></div>
+        <div class="small muted" id="boot-text">Waking up the garden…</div>
+      </div>
+    </div>
+    <noscript>
+      <div style="padding:40px;font-family:system-ui;text-align:center">
+        <h1>JavaScript is required</h1>
+        <p>Landscapers Inc. HQ runs in your browser. Please enable JavaScript and reload.</p>
+      </div>
+    </noscript>
+  </div>
+</body>
+</html>

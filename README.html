@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Landscapers Inc. HQ · Landscapers Inc. HQ</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="docs/docs.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="README.html"><img src="assets/landscapers-logo.jpg" alt=""><span>Landscapers Inc. HQ<small>Guides</small></span></a>
+    <a class="open-app" href="index.html">Open the app</a>
+    <nav aria-label="Guides">
+      <a href="README.html" aria-current="page">Start</a>
+      <a href="docs/USER-GUIDE.html">Staff guide</a>
+      <a href="docs/SETUP-SUPABASE.html">Go live</a>
+      <a href="docs/DEPLOY.html">Hosting</a>
+      <a href="docs/SECURITY.html">Security</a>
+      <a href="docs/DATA-PACK.html">Data pack</a>
+      <a href="docs/TROUBLESHOOTING.html">Troubleshooting</a>
+      <a href="docs/CONTRACT.html">Developers</a>
+    </nav>
+  </header>
+  <main>
+<h1 id="landscapers-inc-hq">Landscapers Inc. HQ</h1>
+<p>The company's own workspace and CRM: mail, calendar, drive, docs, sheets, slides, forms, chat and meetings, plus clients, leads, quotes, invoices, payments, live dispatch, fleet, people, health and safety, finance, KPIs, an AI assistant (Sage) and a 24/7 autonomous agent. Every file is plain HTML, CSS or JavaScript, and it runs by opening <code>index.html</code>. Supabase provides the shared database, logins, file storage and the always-on agent once you go live.</p>
+<p>Built for Landscapers Inc., Mount Edgecombe, Durban. Times are South African (SAST), money is in rand, and the calendar includes the South African public holidays.</p>
+<h2 id="what-you-received">What you received</h2>
+<p>One zip, <code>Landscapers-Inc-HQ-v1.4-PRIVATE.zip</code>, with one folder inside, <code>landscapers-hq</code>, that holds everything:</p>
+<div class="table"><table><thead><tr><th>What</th><th>Where</th></tr></thead><tbody><tr><td>The app</td><td><code>index.html</code>, <code>css/</code>, <code>js/</code>, <code>assets/</code>, <code>vendor/</code></td></tr><tr><td>The company records: everything taken from the company files (2,364 records: clients, invoices, staff, payroll, medicals and more)</td><td><code>data/seed/</code> · <strong>private</strong></td></tr><tr><td>The 253 original documents (PDFs, spreadsheets, photos), filed into the eight shared drives</td><td><code>data/vault/</code> · <strong>private</strong></td></tr><tr><td>The scripts that rebuilt the records from the company files</td><td><code>data-tools/</code> · <strong>private</strong></td></tr><tr><td>Going live: the database SQL and the server code (Edge Functions)</td><td><code>js/sql/</code>, <code>supabase/</code></td></tr><tr><td>Tools and tests (optional, they need Node.js)</td><td><code>tools/</code>, <code>tests/</code></td></tr><tr><td>These guides</td><td><code>README.html</code>, <code>docs/</code></td></tr></tbody></table></div>
+<blockquote><p><strong>Private.</strong> The zip and the folder hold the company's private data. Never upload the whole folder or the zip anywhere, and never email it. How to put just the code on GitHub, safely, is below.</p></blockquote>
+<h2 id="open-it-on-one-computer">Open it on one computer</h2>
+<p>Nothing to install. Everything runs in the browser, and nothing leaves that computer.</p>
+<ol><li>Unzip the zip to a short place, for example <code>C:\LSI</code> (right-click the zip → <strong>Extract All…</strong>). Windows cannot open documents in very deep folders, so the app warns you if the folder sits too deep. Do not open <code>index.html</code> from inside the zip.</li><li>Open the <code>landscapers-hq</code> folder and double-click <code>index.html</code>. Google Chrome or Microsoft Edge work best.</li><li>The first start loads the company records, which takes a few seconds.</li><li>Tap your name and sign in with the password you used in the old CRM. You will be asked to choose your own password.</li></ol>
+<p>Every original document (invoices, certificates, medicals, policies, site photos, the Carron Glen proposal…) opens straight from its record or from Drive, in the browser's own viewer. A few features need to read a document's contents inside the app: importing an original spreadsheet into Sheets, putting an original photo into a slide PDF, attaching an original to a message. For those, go to <strong>Drive → Load original documents</strong> once and choose the <code>data/vault</code> folder. The browser then keeps a checked copy of each document.</p>
+<p>The records live in that browser's storage on that computer. Clearing the browser's site data erases them, so download a copy now and then from <strong>Admin → Backup</strong>.</p>
+<h3 id="optional-run-it-as-a-small-local-web-server">Optional: run it as a small local web server</h3>
+<p>This gives the same app, plus installing it on the computer and opening it offline; documents then need no extra step. It needs <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a> 18 or newer. In the <code>landscapers-hq</code> folder run:</p>
+<pre data-lang="bash"><code>node tools/serve.js 8080</code></pre>
+<p>Then open <a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a>.</p>
+<h2 id="go-live-supabase">Go live (Supabase)</h2>
+<p>This gives everyone their own login, one shared database protected by Row Level Security, file storage, realtime updates, email, and the agent running at 05:00 and 05:30 every day even when nobody is signed in.</p>
+<ol><li><a href="docs/SETUP-SUPABASE.html">docs/SETUP-SUPABASE.html</a>: create the project, then in the app open <strong>Admin → Go live</strong>, which hands you the SQL for every step, ready to copy or download. Deploy the server code with <code>node tools/deploy-functions.js</code> and upload the original documents with <code>node tools/upload-vault.js</code>.</li><li>Put the Supabase address and the public (anon) key in <code>js/settings.js</code>. It is the only file you edit, and the app reads it straight away, opened by double-click or hosted.</li><li><a href="docs/DEPLOY.html">docs/DEPLOY.html</a>: put the app online, without the private folders, and install it on phones.</li></ol>
+<h2 id="put-the-code-on-github">Put the code on GitHub</h2>
+<p>The <code>.gitignore</code> in the folder keeps <code>data/seed/</code>, <code>data/vault/</code>, <code>data-tools/</code> and any <code>PRIVATE</code> zip out of git, so only the code goes up.</p>
+<blockquote><p><strong>Never drag the folder into GitHub's website upload page.</strong> That ignores <code>.gitignore</code> and would publish the company data. Use git from the folder, as below.</p></blockquote>
+<ol><li>On GitHub create a new repository, for example <code>landscapers-hq</code>. Choose <strong>Private</strong> (recommended for a company system). Do not add a README or .gitignore there.</li><li><p>In the <code>landscapers-hq</code> folder run, one at a time (replace <code>&lt;you&gt;</code> with your GitHub user name):</p>
+<pre data-lang="bash"><code>git init -b main</code></pre>
+<pre data-lang="bash"><code>git add .</code></pre>
+<pre data-lang="bash"><code>git status</code></pre>
+<p>Check the list: it must <strong>not</strong> show <code>data/seed/</code>, <code>data/vault/</code>, <code>data-tools/</code> or any <code>PRIVATE</code> zip. Then:</p>
+<pre data-lang="bash"><code>git commit -m &quot;Landscapers Inc. HQ&quot;</code></pre>
+<pre data-lang="bash"><code>git remote add origin https://github.com/&lt;you&gt;/landscapers-hq.git</code></pre>
+<pre data-lang="bash"><code>git push -u origin main</code></pre></li></ol>
+<p><code>npm run check</code> (below) also stops with an error if company data, a document or a service_role key is ever committed. Publishing the app itself is in <a href="docs/DEPLOY.html">docs/DEPLOY.html</a>.</p>
+<h2 id="documentation">Documentation</h2>
+<div class="table"><table><tbody><tr><td><a href="docs/USER-GUIDE.html">docs/USER-GUIDE.html</a></td><td>For staff: every app, and the everyday tasks step by step</td></tr><tr><td><a href="docs/SETUP-SUPABASE.html">docs/SETUP-SUPABASE.html</a></td><td>Going live: database, logins, storage, Edge Functions, secrets, schedule</td></tr><tr><td><a href="docs/DEPLOY.html">docs/DEPLOY.html</a></td><td>Hosting, updates, installing on phones</td></tr><tr><td><a href="docs/SECURITY.html">docs/SECURITY.html</a></td><td>Who can see what, keys, POPIA, audit trail</td></tr><tr><td><a href="docs/DATA-PACK.html">docs/DATA-PACK.html</a></td><td>What was taken from the company files and how it was checked</td></tr><tr><td><a href="docs/TROUBLESHOOTING.html">docs/TROUBLESHOOTING.html</a></td><td>When something does not work</td></tr><tr><td><a href="docs/CONTRACT.html">docs/CONTRACT.html</a></td><td>Developer reference: record formats, app modules, extension points</td></tr></tbody></table></div>
+<h2 id="everything-is-html-css-and-javascript">Everything is HTML, CSS and JavaScript</h2>
+<ul><li>The app: HTML, CSS and JavaScript modules in <code>js/</code>. <code>js/app.bundle.js</code> is the same code as one file, which is what runs when <code>index.html</code> is double-clicked (browsers refuse to load modules from a folder); <code>js/boot.js</code> picks the right one.</li><li>The company records: JavaScript files in <code>data/seed/</code> (browsers will not read <code>.json</code> files from a folder either).</li><li>The database SQL: written by JavaScript in <code>js/sql/</code>, so there are no <code>.sql</code> files to keep in step. <strong>Admin → Go live</strong> shows it; <code>npm run sql</code> writes it to files for psql.</li><li>The server code (Edge Functions in <code>supabase/functions/</code>), the tools and the tests: JavaScript.</li><li>These guides: HTML pages.</li><li>JSON only where npm and phones require it: <code>package.json</code>, <code>package-lock.json</code> and <code>manifest.webmanifest</code>.</li></ul>
+<h2 id="project-layout">Project layout</h2>
+<pre><code>index.html                the page (double-click it, or host the folder)
+js/settings.js            the only file you edit to go live (mode, Supabase address, anon key)
+js/boot.js                starts the app: js/main.js when served, js/app.bundle.js when double-clicked
+js/app.bundle.js          the whole app as one script (made by npm run build)
+sw.js, manifest.webmanifest   offline cache and phone install (when hosted)
+css/                      design tokens, layout, components, animations
+js/config.js              fixed company settings
+js/core/                  data layer (IndexedDB / Supabase), auth, permissions, dates, money, search, files
+js/ui/                    shell, components, forms, tables, charts, overlays
+js/schema/                every record type and its permissions (the source for the SQL)
+js/sql/                   the go-live SQL, step by step (01–08)
+js/apps/&lt;app&gt;/            one folder per app (index.js = screens, plugin.js = badges, alerts, Sage skills)
+js/ai/                    Sage: skills, entity extraction, answers
+supabase/functions/       Edge Functions: admin-users, send-email, inbound-email, agent-run, ai-assistant
+tools/                    local server, build, checks, SQL files, deploy, document vault and data-pack tools
+tools/lib/                shared helpers (data-pack files, zip reader and writer)
+tests/                    unit tests (npm test)
+vendor/                   pinned third-party libraries (no CDN needed)
+README.html, docs/        these guides
+data/seed/                PRIVATE: the company records (not in git)
+data/vault/               PRIVATE: the original documents (not in git)
+data-tools/               PRIVATE: the scripts that rebuild the records from the company files (not in git)</code></pre>
+<h2 id="for-developers">For developers</h2>
+<p>The app needs no build step to use or host. The tools are optional and need only Node.js.</p>
+<pre data-lang="bash"><code>npm install</code></pre>
+<pre data-lang="bash"><code>npm test</code></pre>
+<pre data-lang="bash"><code>npm run test:sql</code></pre>
+<pre data-lang="bash"><code>npm run check</code></pre>
+<pre data-lang="bash"><code>npm run build</code></pre>
+<pre data-lang="bash"><code>npm run test:browser</code></pre>
+<ul><li><code>npm test</code> runs the unit tests (515 in 20 files): formulas, money, dates, forms, PDF layout (no overlapping text on any invoice, quote or statement), Sage, agent rules, the go-live SQL, the zip tools, the links in these guides and more.</li><li><code>npm run test:sql</code> runs all the go-live SQL against a real Postgres (PGlite), loads the company records if they are in <code>data/seed/</code>, links logins and checks Row Level Security for eight roles (51 checks with the records, 50 without).</li><li><code>npm run check</code> parses every module and checks its imports, that <code>js/app.bundle.js</code> is up to date, that every file is HTML, CSS or JavaScript, and, in a git repository, that no company data or key is committed.</li><li><code>npm run build</code> rebuilds <code>js/app.bundle.js</code>, the double-click version. Run it after changing anything in <code>js/</code> (not needed for <code>js/settings.js</code>, which is read separately).</li><li><code>npm run test:browser</code> opens the app in headless Chrome or Edge, both double-clicked and served: the records load, every app opens, documents open, an invoice PDF downloads with its logo, and Load original documents works.</li><li><code>npm run sql</code> writes the go-live SQL to <code>build/sql/</code> for psql (step 06 holds private data; <code>build/</code> is git-ignored).</li><li><code>npm run seed -- --knowledge &lt;dir&gt;</code> rebuilds the company records from the extracted knowledge files (needs <code>data-tools/</code>).</li><li><code>node tools/build-vault.js</code> rebuilds <code>data/vault/</code> from the original company zips, and <code>node tools/upload-vault.js --dry-run</code> checks every document against its record before an upload to Supabase Storage.</li></ul>
+  </main>
+  <footer>Landscapers Inc. HQ · Mount Edgecombe, Durban · <a href="README.html">All guides</a></footer>
+  <script src="docs/docs.js"></script>
+</body>
+</html>

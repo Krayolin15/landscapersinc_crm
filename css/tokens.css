@@ -1,0 +1,210 @@
+/* =============================================================================
+   Landscapers Inc. HQ — design tokens
+   Palette sampled from the company logo: forest, grass, river, sky, clay
+   (mountain), sun and cream. Every colour in the app comes from here.
+   ========================================================================== */
+
+:root {
+  /* ---- brand ramps ---- */
+  --forest-950: #06190e;
+  --forest-900: #0b2a18;
+  --forest-800: #103d24;
+  --forest-700: #175a33;
+  --forest-600: #1f7440;
+  --grass-600: #3f8f2a;
+  --grass-500: #5fa83b;
+  --grass-400: #7cc24e;
+  --grass-300: #a6db7c;
+  --grass-100: #e6f5d9;
+  --river-700: #0f6f91;
+  --river-600: #1588b0;
+  --river-500: #1e9bc4;
+  --river-400: #3ab6d9;
+  --sky-300: #8fd8e6;
+  --sky-100: #dcf3f8;
+  --clay-700: #9a5020;
+  --clay-600: #b5612b;
+  --clay-500: #c8733a;
+  --clay-400: #de8d4f;
+  --clay-100: #f8e6d6;
+  --sun-600: #d99a12;
+  --sun-500: #f2b42f;
+  --sun-400: #f7c95a;
+  --sun-100: #fdf2d3;
+  --cream-50: #fbf8f0;
+  --cream-100: #f5eedc;
+  --cream-200: #ebe1c7;
+  --rose-600: #c73a47;
+  --rose-500: #e0525e;
+  --rose-100: #fbe1e3;
+  --violet-600: #5b43e0;
+  --violet-500: #7b61ff;
+  --violet-100: #ebe7ff;
+  --slate-900: #16211b;
+  --slate-700: #3b4a41;
+  --slate-500: #6b7a70;
+  --slate-400: #8e9b93;
+  --slate-300: #b9c3bc;
+  --slate-200: #dbe2dd;
+  --slate-100: #edf1ee;
+
+  /* ---- semantic (light) ---- */
+  --bg: #f3f1e8;
+  --bg-grad-1: rgba(95, 168, 59, 0.20);
+  --bg-grad-2: rgba(30, 155, 196, 0.16);
+  --bg-grad-3: rgba(242, 180, 47, 0.16);
+  --bg-grad-4: rgba(200, 115, 58, 0.12);
+  --surface: rgba(255, 255, 255, 0.78);
+  --surface-solid: #ffffff;
+  --surface-2: rgba(248, 246, 238, 0.85);
+  --surface-3: #eef0e8;
+  --surface-hover: rgba(31, 116, 64, 0.06);
+  --surface-active: rgba(31, 116, 64, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.65);
+  --border: rgba(22, 33, 27, 0.10);
+  --border-strong: rgba(22, 33, 27, 0.18);
+  --text: #16211b;
+  --text-2: #3b4a41;
+  --muted: #6b7a70;
+  --faint: #9aa69f;
+  --primary: var(--forest-600);
+  --primary-strong: var(--forest-700);
+  --primary-soft: rgba(31, 116, 64, 0.10);
+  --primary-contrast: #ffffff;
+  --accent: var(--river-500);
+  --accent-soft: rgba(30, 155, 196, 0.12);
+  --success: #2e9a4f;
+  --success-soft: rgba(46, 154, 79, 0.12);
+  --warning: var(--sun-600);
+  --warning-soft: rgba(242, 180, 47, 0.18);
+  --danger: var(--rose-600);
+  --danger-soft: rgba(224, 82, 94, 0.12);
+  --info: var(--river-600);
+  --info-soft: rgba(30, 155, 196, 0.12);
+  --ai: var(--violet-500);
+  --ai-soft: rgba(123, 97, 255, 0.12);
+  --focus: 0 0 0 3px rgba(30, 155, 196, 0.35);
+
+  /* ---- app tile gradients (launcher + sidebar icons) ---- */
+  --g-forest: linear-gradient(135deg, #2c8a4e 0%, #175a33 100%);
+  --g-grass: linear-gradient(135deg, #8fd05d 0%, #3f8f2a 100%);
+  --g-river: linear-gradient(135deg, #4cc6e6 0%, #0f6f91 100%);
+  --g-sky: linear-gradient(135deg, #a8e6f1 0%, #1e9bc4 100%);
+  --g-clay: linear-gradient(135deg, #f0a468 0%, #b5612b 100%);
+  --g-sun: linear-gradient(135deg, #ffd978 0%, #e09b12 100%);
+  --g-rose: linear-gradient(135deg, #ff8a93 0%, #c73a47 100%);
+  --g-violet: linear-gradient(135deg, #a996ff 0%, #5b43e0 100%);
+  --g-slate: linear-gradient(135deg, #8e9b93 0%, #3b4a41 100%);
+  --g-aurora: linear-gradient(120deg, #5fa83b, #1e9bc4, #7b61ff, #f2b42f);
+  --g-brand: linear-gradient(135deg, #1f7440 0%, #5fa83b 45%, #1e9bc4 100%);
+
+  /* ---- chart palette (ordered for categorical series) ---- */
+  --c1: #1f7440;
+  --c2: #1e9bc4;
+  --c3: #f2b42f;
+  --c4: #c8733a;
+  --c5: #7b61ff;
+  --c6: #5fa83b;
+  --c7: #e0525e;
+  --c8: #8fd8e6;
+
+  /* ---- type ---- */
+  --font-display: 'Fraunces', 'Georgia', serif;
+  --font-ui: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --fs-xs: 0.72rem;
+  --fs-sm: 0.82rem;
+  --fs-md: 0.92rem;
+  --fs-lg: 1.06rem;
+  --fs-xl: 1.3rem;
+  --fs-2xl: 1.7rem;
+  --fs-3xl: 2.25rem;
+
+  /* ---- shape & depth ---- */
+  --r-xs: 6px;
+  --r-sm: 9px;
+  --r-md: 13px;
+  --r-lg: 18px;
+  --r-xl: 26px;
+  --r-full: 999px;
+  --shadow-xs: 0 1px 2px rgba(16, 61, 36, 0.06);
+  --shadow-sm: 0 2px 6px rgba(16, 61, 36, 0.07), 0 1px 2px rgba(16, 61, 36, 0.05);
+  --shadow-md: 0 8px 24px rgba(16, 61, 36, 0.09), 0 2px 6px rgba(16, 61, 36, 0.05);
+  --shadow-lg: 0 18px 48px rgba(16, 61, 36, 0.14), 0 4px 12px rgba(16, 61, 36, 0.06);
+  --shadow-glow: 0 0 0 1px rgba(95, 168, 59, 0.25), 0 10px 30px rgba(95, 168, 59, 0.25);
+  --blur: saturate(160%) blur(18px);
+
+  /* ---- motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast: 140ms;
+  --t-med: 260ms;
+  --t-slow: 520ms;
+
+  /* ---- layout ---- */
+  --topbar-h: 64px;
+  --sidebar-w: 264px;
+  --sidebar-w-collapsed: 76px;
+  --bottomnav-h: 68px;
+  --content-max: 1480px;
+  --gutter: 24px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  color-scheme: light;
+}
+
+/* ---- dark theme: night over the forest ---- */
+:root[data-theme='dark'] {
+  --bg: #07130c;
+  --bg-grad-1: rgba(95, 168, 59, 0.18);
+  --bg-grad-2: rgba(30, 155, 196, 0.16);
+  --bg-grad-3: rgba(123, 97, 255, 0.14);
+  --bg-grad-4: rgba(242, 180, 47, 0.08);
+  --surface: rgba(17, 36, 25, 0.72);
+  --surface-solid: #10241a;
+  --surface-2: rgba(22, 46, 32, 0.72);
+  --surface-3: #16301f;
+  --surface-hover: rgba(166, 219, 124, 0.07);
+  --surface-active: rgba(166, 219, 124, 0.14);
+  --glass-border: rgba(166, 219, 124, 0.12);
+  --border: rgba(203, 230, 211, 0.10);
+  --border-strong: rgba(203, 230, 211, 0.20);
+  --text: #eaf3ec;
+  --text-2: #c3d3c8;
+  --muted: #8fa597;
+  --faint: #62786a;
+  --primary: #5fbf6f;
+  --primary-strong: #7cd48a;
+  --primary-soft: rgba(95, 191, 111, 0.14);
+  --primary-contrast: #06190e;
+  --accent: var(--river-400);
+  --accent-soft: rgba(58, 182, 217, 0.14);
+  --success: #5fcf7a;
+  --success-soft: rgba(95, 207, 122, 0.14);
+  --warning: var(--sun-400);
+  --warning-soft: rgba(247, 201, 90, 0.16);
+  --danger: #ff7b86;
+  --danger-soft: rgba(255, 123, 134, 0.14);
+  --info: var(--river-400);
+  --info-soft: rgba(58, 182, 217, 0.14);
+  --ai: #a996ff;
+  --ai-soft: rgba(169, 150, 255, 0.16);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.32);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.38);
+  --shadow-lg: 0 22px 56px rgba(0, 0, 0, 0.5);
+  --c1: #5fbf6f;
+  --c2: #3ab6d9;
+  --c3: #f7c95a;
+  --c4: #de8d4f;
+  --c5: #a996ff;
+  --c6: #a6db7c;
+  --c7: #ff7b86;
+  --c8: #8fd8e6;
+  color-scheme: dark;
+}
+
+@media (max-width: 860px) {
+  :root { --gutter: 14px; --topbar-h: 58px; }
+}

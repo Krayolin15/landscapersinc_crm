@@ -1,0 +1,20 @@
+# The company data pack and document vault are PRIVATE — never commit or publish them.
+data/seed/
+data-tools/
+*PRIVATE*.zip
+vault*.zip
+
+# developer tools
+node_modules/
+.claude/
+test-results/
+
+# generated on demand: build/sql holds the seed SQL (company data); supabase/config.toml and .temp/ come from tools/deploy-functions.js and the Supabase CLI
+build/
+supabase/config.toml
+supabase/.temp/
+
+# the original company documents, and local secrets
+data/vault/
+.env
+.env.*

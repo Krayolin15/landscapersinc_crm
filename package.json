@@ -1,0 +1,21 @@
+{
+  "name": "landscapers-inc-hq",
+  "version": "1.4.0",
+  "private": true,
+  "type": "module",
+  "description": "Landscapers Inc. HQ — plain HTML, CSS and JavaScript. Open index.html (double-click) or host the folder; no build step is needed to use it. These scripts are optional developer tools.",
+  "scripts": {
+    "serve": "node tools/serve.js 8080",
+    "check": "node tools/check.js",
+    "test": "node tools/test-all.js",
+    "test:sql": "node tools/test-sql.js",
+    "test:browser": "node tools/test-browser.js",
+    "build": "node tools/build.js",
+    "sql": "node tools/gen-sql.js",
+    "seed": "node tools/build-seed.js"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "esbuild-wasm": "0.28.2"
+  }
+}

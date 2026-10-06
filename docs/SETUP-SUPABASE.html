@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Going live with Supabase · Landscapers Inc. HQ</title>
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs/docs.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="../README.html"><img src="../assets/landscapers-logo.jpg" alt=""><span>Landscapers Inc. HQ<small>Guides</small></span></a>
+    <a class="open-app" href="../index.html">Open the app</a>
+    <nav aria-label="Guides">
+      <a href="../README.html">Start</a>
+      <a href="../docs/USER-GUIDE.html">Staff guide</a>
+      <a href="../docs/SETUP-SUPABASE.html" aria-current="page">Go live</a>
+      <a href="../docs/DEPLOY.html">Hosting</a>
+      <a href="../docs/SECURITY.html">Security</a>
+      <a href="../docs/DATA-PACK.html">Data pack</a>
+      <a href="../docs/TROUBLESHOOTING.html">Troubleshooting</a>
+      <a href="../docs/CONTRACT.html">Developers</a>
+    </nav>
+  </header>
+  <main>
+<h1 id="going-live-with-supabase">Going live with Supabase</h1>
+<p>About an hour, done once by the owner or an administrator. When you finish, every staff member signs in with their own email, sees only what their role allows, and the agent runs at 05:00 and 05:30 even when nobody has the app open.</p>
+<p>You need:</p>
+<ul><li>a <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> account; the free plan is enough to start, and Pro adds daily backups;</li><li>the unzipped <code>landscapers-hq</code> folder (it has the company records in <code>data/seed/</code> and the documents in <code>data/vault/</code>);</li><li>the app open as the owner: <strong>Admin → Go live</strong> gives you the SQL for every step below, ready to copy or download;</li><li><a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a> 18 or newer and the <a href="https://supabase.com/docs/guides/local-development/cli/getting-started" target="_blank" rel="noopener">Supabase CLI</a> 1.215.0 or newer, for steps 6 and 9;</li><li><code>psql</code> (it comes with PostgreSQL) for loading the company data in step 4. The SQL editor in the dashboard works for every other step.</li></ul>
+<p>Keep the <strong>service_role</strong> key and the database password to yourself. They never go into the app, a chat message or an email.</p>
+<h2 id="1-create-the-project">1. Create the project</h2>
+<ol><li>Supabase dashboard → <strong>New project</strong>. Choose region <strong>Africa (Cape Town)</strong> if offered; otherwise the nearest region. Save the database password in a password manager.</li><li><strong>Project Settings → API</strong>: copy the <strong>Project URL</strong> and the <strong>anon public</strong> key. You need them in step 8.</li><li><strong>Project Settings → Database → Connection string (URI)</strong>: copy it for <code>psql</code>.</li></ol>
+<h2 id="2-authentication-settings">2. Authentication settings</h2>
+<p><strong>Authentication → Providers → Email</strong>:</p>
+<ul><li>Turn <strong>Allow new users to sign up</strong> off. Staff accounts are created by an administrator only. Even if someone signs up, they get no access: every table requires a staff profile.</li><li>Keep <strong>Confirm email</strong> on.</li></ul>
+<p><strong>Authentication → URL Configuration</strong>: set <strong>Site URL</strong> to the address where the app will live (see <a href="DEPLOY.html">DEPLOY.html</a>), for example <code>https://hq.landscapersinc.co.za</code>. Add the same address under <strong>Redirect URLs</strong>. Password-reset and sign-in links go there.</p>
+<h2 id="3-create-the-database">3. Create the database</h2>
+<p>In the app, open <strong>Admin → Go live</strong> and run steps <strong>01 to 05 in this order</strong>. For each one: <strong>Copy SQL</strong>, then in Supabase <strong>SQL Editor → New query</strong>, paste and click <strong>Run</strong>. Each step is safe to run again.</p>
+<div class="table"><table><thead><tr><th>Step</th><th>What it does</th></tr></thead><tbody><tr><td>01 Tables</td><td>Every table (76 record types), indexes, and the role helper functions</td></tr><tr><td>02 Security rules</td><td>Row Level Security on every table: the rules for who can read and change what (see <a href="SECURITY.html">SECURITY.html</a>)</td></tr><tr><td>03 Who and when</td><td>Who and when on every record (cannot be faked), the audit log, profile protection, form-response categories</td></tr><tr><td>04 File storage</td><td>The private <code>drive</code> and <code>avatars</code> storage buckets and their access rules</td></tr><tr><td>05 Live updates</td><td>Live updates on every phone and PC</td></tr></tbody></table></div>
+<p>To use <code>psql</code> instead, click <strong>Download</strong> on each step and run the files from the folder you saved them in:</p>
+<pre data-lang="bash"><code>psql &quot;&lt;your connection string&gt;&quot; -f 01_schema.sql</code></pre>
+<pre data-lang="bash"><code>psql &quot;&lt;your connection string&gt;&quot; -f 02_rls.sql</code></pre>
+<pre data-lang="bash"><code>psql &quot;&lt;your connection string&gt;&quot; -f 03_triggers.sql</code></pre>
+<pre data-lang="bash"><code>psql &quot;&lt;your connection string&gt;&quot; -f 04_storage.sql</code></pre>
+<pre data-lang="bash"><code>psql &quot;&lt;your connection string&gt;&quot; -f 05_realtime.sql</code></pre>
+<h2 id="4-load-the-company-data-private">4. Load the company data (private)</h2>
+<p>In <strong>Admin → Go live</strong>, step <strong>06 Company data</strong>, click <strong>Download 06_seed.sql</strong>. It is built from the company records exactly as they came in the zip (not from changes made on this computer). Then, from the folder where you saved it:</p>
+<pre data-lang="bash"><code>psql &quot;&lt;your connection string&gt;&quot; -f 06_seed.sql</code></pre>
+<p>This loads all 2,364 records (clients, sites, contracts, invoices, quotes, staff, payroll, medicals, assets, fleet, forms and more). It runs in one transaction, so it loads completely or not at all. Re-running only refreshes records nobody has edited since.</p>
+<p>The file is about 4 MB, which is too large for the dashboard SQL editor, so use <code>psql</code>. It holds private company data: delete it once it has loaded.</p>
+<h2 id="5-staff-logins">5. Staff logins</h2>
+<p>The data pack contains the four people who had logins in the old CRM: Jared, Anthony, Renesh and Wayne. Each needs a Supabase login, which is then linked to their existing profile so their history stays attached to them.</p>
+<ol><li><strong>Authentication → Users → Add user → Create new user</strong> for each person. Enter their email and a temporary password, and tick <strong>Auto Confirm User</strong>.</li><li>In <strong>Admin → Go live</strong>, step <strong>08 Link staff logins</strong>, type each person's email (leave it empty for anyone who does not need a login yet).</li><li><strong>Copy SQL</strong>, paste it into the SQL editor and <strong>Run</strong>. Each line reports what it did. It is safe to run again.</li><li>Sign in to the app as the owner with the temporary password. You are asked to choose your own.</li></ol>
+<p>After that, add everyone else from <strong>Admin → Users</strong> in the app. It sends the invitation email through the <code>admin-users</code> function, so step 6 must be done first.</p>
+<h2 id="6-edge-functions-server-code">6. Edge Functions (server code)</h2>
+<p>The functions are plain JavaScript (<code>supabase/functions/&lt;name&gt;/index.js</code>). In the <code>landscapers-hq</code> folder on your computer:</p>
+<pre data-lang="bash"><code>supabase login</code></pre>
+<pre data-lang="bash"><code>node tools/deploy-functions.js --project-ref &lt;your project ref&gt;</code></pre>
+<p>The project ref is the 20 letters in your project address (<code>https://&lt;ref&gt;.supabase.co</code>). The tool deploys all five functions. Because they are JavaScript rather than TypeScript, the Supabase CLI needs a <code>supabase/config.toml</code> that names each entry file; the tool writes it for you each time (it is not kept in the project). Useful options: <code>--only &lt;name&gt;</code> deploys one function again, and <code>--dry-run</code> shows what would happen without changing anything.</p>
+<div class="table"><table><thead><tr><th>Function</th><th>What it does</th><th>Login check</th></tr></thead><tbody><tr><td><code>admin-users</code></td><td>Invite, create, reset, suspend and delete staff logins (the only place the service key is used for people)</td><td>Caller must be signed in as owner or admin</td></tr><tr><td><code>send-email</code></td><td>Sends a message or invoice from Mail through Resend</td><td>Caller must be signed in</td></tr><tr><td><code>ai-assistant</code></td><td>Optional cloud mode for Sage AI (Claude)</td><td>Caller must be signed in</td></tr><tr><td><code>agent-run</code></td><td>The 24/7 agent: 05:00 dispatch, 05:30 briefing, debtor reminders, expiry watch</td><td>Secret header from the scheduler (no login check, because the scheduler has no login)</td></tr><tr><td><code>inbound-email</code></td><td>Receives company email from your provider and files it into Mail with triage</td><td>Secret header from the provider (no login check)</td></tr></tbody></table></div>
+<p>The <code>_shared</code> folder is included automatically. If a deploy fails, the tool lists the usual fixes: run <code>supabase login</code> again, check the project ref, or, if Docker is involved, close Docker Desktop and run the tool again.</p>
+<h3 id="secrets">Secrets</h3>
+<p>Set them once. Anything left out simply switches that feature off.</p>
+<pre data-lang="bash"><code>supabase secrets set RESEND_API_KEY=&lt;key from resend.com&gt; MAIL_FROM=&quot;Landscapers Inc &lt;accounts@your-domain.co.za&gt;&quot;</code></pre>
+<pre data-lang="bash"><code>supabase secrets set CRON_SECRET=&lt;long random string&gt; INBOUND_SECRET=&lt;another long random string&gt;</code></pre>
+<pre data-lang="bash"><code>supabase secrets set ANTHROPIC_API_KEY=&lt;key from console.anthropic.com&gt;</code></pre>
+<div class="table"><table><thead><tr><th>Secret</th><th>Used by</th><th>Notes</th></tr></thead><tbody><tr><td><code>RESEND_API_KEY</code></td><td>send-email, agent-run</td><td>Email sending. Verify your domain in Resend first</td></tr><tr><td><code>MAIL_FROM</code></td><td>send-email, agent-run</td><td>Sender address on a domain verified in Resend</td></tr><tr><td><code>CRON_SECRET</code></td><td>agent-run</td><td>The same value goes into Vault in step 7</td></tr><tr><td><code>INBOUND_SECRET</code></td><td>inbound-email</td><td>Your email provider sends it as the <code>x-inbound-secret</code> header</td></tr><tr><td><code>ANTHROPIC_API_KEY</code></td><td>ai-assistant</td><td>Optional: without it Sage still answers everything from your data, just less conversationally</td></tr><tr><td><code>ANTHROPIC_MODEL</code></td><td>ai-assistant</td><td>Optional. Default <code>claude-opus-5-5</code></td></tr><tr><td><code>ANTHROPIC_EFFORT</code></td><td>ai-assistant</td><td>Optional: <code>low</code>, <code>medium</code> (default) or <code>high</code></td></tr><tr><td><code>TWILIO_ACCOUNT_SID</code>, <code>TWILIO_AUTH_TOKEN</code>, <code>TWILIO_WHATSAPP_FROM</code></td><td>agent-run</td><td>Optional WhatsApp reminders. Without them, WhatsApp messages wait in the approvals queue and are sent by hand with one tap</td></tr></tbody></table></div>
+<p><code>SUPABASE_URL</code>, <code>SUPABASE_ANON_KEY</code> and <code>SUPABASE_SERVICE_ROLE_KEY</code> are provided to functions automatically. Never set them yourself.</p>
+<p>To generate a random string:</p>
+<pre data-lang="bash"><code>node -e &quot;console.log(require('crypto').randomBytes(32).toString('hex'))&quot;</code></pre>
+<h3 id="incoming-email-optional">Incoming email (optional)</h3>
+<p>Point your provider's inbound webhook (Resend inbound, Postmark, Mailgun or a Cloudflare Email Worker) at:</p>
+<pre><code>https://&lt;project ref&gt;.supabase.co/functions/v1/inbound-email</code></pre>
+<p>Add the header <code>x-inbound-secret: &lt;INBOUND_SECRET&gt;</code>. Emergencies notify every manager straight away; quotes, reschedules and proofs of payment are sorted automatically.</p>
+<h2 id="7-the-247-schedule">7. The 24/7 schedule</h2>
+<ol><li><strong>Database → Extensions</strong>: enable <code>pg_cron</code> and <code>pg_net</code>.</li><li><p><strong>SQL Editor</strong>, with the same value as <code>CRON_SECRET</code>:</p>
+<pre data-lang="sql"><code>select vault.create_secret('&lt;the CRON_SECRET value&gt;', 'agent_cron_secret');</code></pre></li><li>In <strong>Admin → Go live</strong>, step <strong>07 The 24/7 schedule</strong>, type your project ref. <strong>Copy SQL</strong>, paste it into the SQL editor and <strong>Run</strong>.</li></ol>
+<div class="table"><table><thead><tr><th>Job</th><th>SAST</th><th>What it does</th></tr></thead><tbody><tr><td><code>agent-morning-dispatch</code></td><td>05:00 daily</td><td>Plans today's crew routes and postpones weather-affected visits</td></tr><tr><td><code>agent-executive-briefing</code></td><td>05:30 daily</td><td>Writes the owner's briefing: overnight decisions, dispatch, approvals, money, alerts</td></tr><tr><td><code>agent-payment-reminders</code></td><td>Hourly, 07:00–18:00</td><td>Debtor reminders at 3, 7 and 14 days overdue, and proof-of-payment matching</td></tr><tr><td><code>agent-expiry-watch</code></td><td>Hourly, 07:15–18:15</td><td>Licences, certificates, medicals and documents nearing expiry</td></tr></tbody></table></div>
+<p>Check it is working in the app under <strong>Autonomous Core</strong> (every run and decision is listed there), or in the Cron page of the Supabase dashboard. From the SQL editor:</p>
+<pre data-lang="sql"><code>select jobname, status, start_time, return_message from cron.job_run_details order by start_time desc limit 20;</code></pre>
+<h2 id="8-point-the-app-at-supabase">8. Point the app at Supabase</h2>
+<p>In <code>js/settings.js</code> (the only file you edit), with your values:</p>
+<pre data-lang="js"><code>mode: 'supabase',
+SUPABASE_URL: 'https://&lt;project ref&gt;.supabase.co',
+SUPABASE_ANON_KEY: '&lt;the anon public key&gt;'</code></pre>
+<p>The anon key is meant to be public; Row Level Security protects the data. <strong>Never</strong> put the <code>service_role</code> key here. The app reads this file straight away, whether <code>index.html</code> is double-clicked or the app is hosted; nothing needs rebuilding.</p>
+<p>Then publish the app (<a href="DEPLOY.html">DEPLOY.html</a>) <strong>without</strong> the <code>data/seed/</code>, <code>data/vault/</code> and <code>data-tools/</code> folders.</p>
+<h2 id="9-upload-the-documents">9. Upload the documents</h2>
+<p>The data pack already lists all 253 original documents and the place in Storage where each one belongs, and the documents themselves are already in the <code>data/vault</code> folder of the zip. Upload them once, from your own computer:</p>
+<ol><li>Supabase → <strong>Project Settings → API</strong>: copy the Project URL and the <strong>service_role</strong> key.</li><li><p>In the <code>landscapers-hq</code> folder (PowerShell), with your own values:</p>
+<pre data-lang="powershell"><code>$env:SUPABASE_URL=&quot;https://&lt;project&gt;.supabase.co&quot;; $env:SUPABASE_SERVICE_ROLE_KEY=&quot;&lt;service_role key&gt;&quot;; node tools/upload-vault.js</code></pre>
+<p>It checks every file against its record (SHA-256) and uploads it to the private <code>drive</code> bucket. It is safe to run again: files already there are skipped. Close the PowerShell window afterwards so the key is gone.</p></li></ol>
+<p>The service_role key bypasses every security rule: use it only on your computer, only in that command, never in <code>js/settings.js</code>, a file in this folder or a browser.</p>
+<p>Afterwards each document opens from its record and from Drive for the people allowed to see it. Confidential documents and the FINANCE and HR drives stay restricted (see <a href="SECURITY.html">SECURITY.html</a>). The in-app importer (<strong>Drive → Import document vault</strong>, manager or above) still accepts a vault zip if you prefer to upload through the browser; <code>node tools/build-vault.js … --zip &lt;file&gt;</code> makes one.</p>
+<h2 id="10-check-it">10. Check it</h2>
+<ul><li>Sign in as the owner: the Daily Briefing, clients, invoices and calendar show the company's records.</li><li>Sign in as a field worker: no payroll, medicals, bank accounts, FINANCE or HR drive, and no HR or incident form responses except their own.</li><li><strong>Admin → System</strong> shows the mode, versions, service worker, storage and notification status.</li></ul>
+<p>Developers can prove every rule before going live with <code>npm run test:sql</code>: it runs all of the SQL against real Postgres and checks access for eight roles. <code>npm run sql</code> writes the same SQL to files in <code>build/sql/</code> (step 06 holds private data, so <code>build/</code> is never committed).</p>
+<h2 id="updating-later">Updating later</h2>
+<ul><li>New app version: publish the new files. Phones pick them up on their next load.</li><li>The database changed (the release notes say so): run steps 01–05 again from <strong>Admin → Go live</strong>. They are safe to re-run and never delete data.</li></ul>
+  </main>
+  <footer>Landscapers Inc. HQ · Mount Edgecombe, Durban · <a href="../README.html">All guides</a></footer>
+  <script src="../docs/docs.js"></script>
+</body>
+</html>

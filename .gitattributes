@@ -1,0 +1,10 @@
+# Same line endings on every computer (Windows, Mac, GitHub)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.woff2 binary
+*.pdf binary
+*.zip binary
+*.xlsx binary
