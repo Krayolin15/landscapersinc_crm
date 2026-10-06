@@ -16,20 +16,20 @@ const VENDOR = 'lsihq-vendor-1';   // bump only when a file in vendor/ or assets
 const IMMUTABLE = p => p.includes('/vendor/') || p.includes('/assets/');
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
-  './css/tokens.css', './css/base.css', './css/animations.css', './css/layout.css', './css/components.css', './css/apps.css',
-  './js/settings.js', './js/boot.js', './js/main.js'
+  './css__tokens.css', './css__base.css', './css__animations.css', './css__layout.css', './css__components.css', './css__apps.css',
+  './js__settings.js', './js__boot.js', './js__main.js'
 ];
 const VENDOR_FILES = [
-  './assets/landscapers-logo.jpg', './assets/icons/favicon.svg', './assets/icons/icon-192.png',
-  './vendor/lucide.min.js', './vendor/supabase.min.js', './vendor/chart.umd.min.js', './vendor/jspdf.umd.min.js',
-  './vendor/jspdf.plugin.autotable.min.js', './vendor/xlsx.full.min.js', './vendor/jszip.min.js', './vendor/confetti.browser.min.js',
-  './vendor/signature_pad.umd.min.js', './vendor/leaflet/leaflet.js', './vendor/leaflet/leaflet.css'
+  './assets__landscapers-logo.jpg', './assets__icons__favicon.svg', './assets__icons__icon-192.png',
+  './vendor__lucide.min.js', './vendor__supabase.min.js', './vendor__chart.umd.min.js', './vendor__jspdf.umd.min.js',
+  './vendor__jspdf.plugin.autotable.min.js', './vendor__xlsx.full.min.js', './vendor__jszip.min.js', './vendor__confetti.browser.min.js',
+  './vendor__signature_pad.umd.min.js', './vendor__leaflet__leaflet.js', './vendor__leaflet__leaflet.css'
 ];
 
 self.addEventListener('install', e => {
   e.waitUntil(Promise.all([
     caches.open(VERSION).then(c => c.addAll(SHELL)).catch(() => null),
-    // libraries load on demand (js/core/lazy.js); having them here keeps that working offline
+    // libraries load on demand (js__core__lazy.js); having them here keeps that working offline
     caches.open(VENDOR).then(async c => { for (const f of VENDOR_FILES) if (!(await c.match(f))) await c.add(f).catch(() => null); })
   ]).then(() => self.skipWaiting()));
 });

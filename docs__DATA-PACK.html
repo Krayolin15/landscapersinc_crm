@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The company data pack · Landscapers Inc. HQ</title>
+<link rel="icon" href="../assets__icons__favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs__docs.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="../README.html"><img src="../assets__landscapers-logo.jpg" alt=""><span>Landscapers Inc. HQ<small>Guides</small></span></a>
+    <a class="open-app" href="../index.html">Open the app</a>
+    <nav aria-label="Guides">
+      <a href="../README.html">Start</a>
+      <a href="../docs__USER-GUIDE.html">Staff guide</a>
+      <a href="../docs__SETUP-SUPABASE.html">Go live</a>
+      <a href="../docs__DEPLOY.html">Hosting</a>
+      <a href="../docs__SECURITY.html">Security</a>
+      <a href="../docs__DATA-PACK.html" aria-current="page">Data pack</a>
+      <a href="../docs__TROUBLESHOOTING.html">Troubleshooting</a>
+      <a href="../docs__CONTRACT.html">Developers</a>
+    </nav>
+  </header>
+  <main>
+<h1 id="the-company-data-pack">The company data pack</h1>
+<p>The folder <code>data/seed/</code> holds every record taken from the company files, ready for the app: one JavaScript file per record type (browsers load these even when <code>index.html</code> is double-clicked) plus <code>manifest.js</code>, which lists them with their counts and the pack version. For Supabase the same records become step 06 of the go-live SQL (<strong>Admin → Go live</strong>), built from these files when you ask for it. This page describes what is in the pack without repeating any of the private content.</p>
+<h2 id="where-it-came-from">Where it came from</h2>
+<p>The company data zip was read file by file: the CRM and sales workbooks, invoices (April to July), income statements, KPI trackers, schedules and operations registers, staff and HR files, medicals, training records, fleet, assets and purchases, health and safety forms and policies, SOPs, strategy documents, marketing material, and the old CRM's own data. Nested zips were opened too. The facts were extracted into 37 structured knowledge files. <code>tools__build-seed.js</code> then maps them into the app's record types, with one mapper per area in the private <code>data-tools/seed/</code>.</p>
+<p><strong>Every record carries <code>_src</code></strong>, the source file (and sheet, row or page) it came from, so any value can be traced back to the original document.</p>
+<h2 id="contents-version-e4452e153561-2364-records-50-record-types">Contents (version <code>e4452e153561</code>: 2,364 records, 50 record types)</h2>
+<div class="table"><table><thead><tr><th>Area</th><th>Records</th></tr></thead><tbody><tr><td>Clients 63 · sites 57 · contracts 57 · contract changes 2 · contacts 7</td><td>186</td></tr><tr><td>Visits 201 · crews 2 · calendars 2 · events 53 · tasks 14</td><td>272</td></tr><tr><td>Leads 174 · prospects 82 · call attempts 79</td><td>335</td></tr><tr><td>Quotes 32 · invoices 89</td><td>121</td></tr><tr><td>Services 46 · design options 13 · references 3</td><td>62</td></tr><tr><td>Jobs 35 · assets 66 · asset maintenance 17 · vehicles 3 · vehicle logs 6 · suppliers 5 · purchases 5</td><td>137</td></tr><tr><td>Employees 14 · payroll 49 · deductions 3 · medicals 10 · certificates 6 · PPE issues 1 · appointments 2 · toolbox talks 1</td><td>86</td></tr><tr><td>Expenses 56 · financial periods 9 · owner funding 8 · bank accounts 1</td><td>74</td></tr><tr><td>KPI definitions 23 · KPI entries 75 · goals 61 · meetings 1</td><td>160</td></tr><tr><td>Compliance documents 15 · forms 20 · docs 59</td><td>94</td></tr><tr><td>Drives 8 · folders 46 · files 253 (the document vault index)</td><td>307</td></tr><tr><td>Staff logins 4 · settings 1</td><td>5</td></tr><tr><td><strong>Data issues 525</strong> (see below)</td><td>525</td></tr></tbody></table></div>
+<h2 id="how-it-was-checked">How it was checked</h2>
+<ul><li><strong>Validation</strong>: every record is checked against the same rules the app uses (required fields, dates, SA ID and phone formats, money, enumerations). Result: <strong>0 errors</strong>. There are 87 warnings, all of them things to follow up rather than errors: 79 open leads have no follow-up date, 3 issued quotes have no issue date, and 5 phone numbers or emails are not in a valid format.</li><li><strong>References</strong>: every link between records (a visit to its site, an invoice to its client, a file to its folder) was resolved. Result: <strong>0 broken links</strong>.</li><li><strong>Loading</strong>: <code>npm run test:sql</code> loads the step 06 SQL into real Postgres and confirms the count for every record type matches the pack exactly, and <code>npm run test:browser</code> loads the pack into a real browser and counts every record there too.</li><li><strong>Money</strong>: amounts are stored in rand and calculated in exact cents. Each invoice line is checked (quantity × price = amount). Where the printed total differs from the printed lines, the <strong>printed total is kept</strong> and the difference is noted on the invoice, so the records match what the client received.</li></ul>
+<h2 id="data-issues-what-the-source-files-disagree-on">Data issues: what the source files disagree on</h2>
+<p>Where the company's own files contradict each other, have gaps or contain obvious slips (for example two different branch codes on two bank letters, a total that does not match its lines, or a name spelt two ways), the import <strong>keeps what the source says</strong> and records a <strong>data issue</strong> with the evidence and where to look. Nothing was guessed or quietly corrected.</p>
+<div class="table"><table><thead><tr><th>Source</th><th>High</th><th>Medium</th><th>Low</th></tr></thead><tbody><tr><td>Sales workbook</td><td>9</td><td>20</td><td>27</td></tr><tr><td>CRM workbooks</td><td>7</td><td>12</td><td>35</td></tr><tr><td>KPI trackers</td><td>6</td><td>8</td><td>27</td></tr><tr><td>Schedule &amp; operations registers</td><td>6</td><td>17</td><td>43</td></tr><tr><td>Income statements</td><td>4</td><td>8</td><td>33</td></tr><tr><td>Company documents</td><td>3</td><td>8</td><td>21</td></tr><tr><td>Invoices (April–July)</td><td>3</td><td>18</td><td>28</td></tr><tr><td>People &amp; HR</td><td>2</td><td>7</td><td>23</td></tr><tr><td>Projects, fleet &amp; purchases</td><td>2</td><td>10</td><td>27</td></tr><tr><td>Training records</td><td>1</td><td>5</td><td>17</td></tr><tr><td>Medicals</td><td>0</td><td>15</td><td>11</td></tr><tr><td>Health &amp; safety forms, policies, SOPs</td><td>0</td><td>22</td><td>22</td></tr><tr><td>Strategy, marketing</td><td>0</td><td>7</td><td>9</td></tr><tr><td><strong>Total</strong></td><td><strong>43</strong></td><td><strong>157</strong></td><td><strong>323</strong></td></tr></tbody></table></div>
+<p>Work through them in <strong>Admin → Data health</strong>, starting with the high ones. Record the answer on each issue once you have checked it against the original.</p>
+<h2 id="what-was-deliberately-left-out">What was deliberately left out</h2>
+<ul><li><strong>Clinical medical details</strong>: only fitness outcomes and expiry dates are stored. The clinical text stays in the original documents, which are confidential in the HR drive.</li><li><strong>Old CRM password hashes</strong>: they are not in the step 06 SQL. Supabase logins are created fresh (see <a href="SETUP-SUPABASE.html#5-staff-logins">SETUP-SUPABASE.html</a>). Local mode keeps salted hashes so the four staff can sign in and must then change their password.</li></ul>
+<h2 id="rebuilding-the-pack">Rebuilding the pack</h2>
+<p>With the extracted knowledge files and the private <code>data-tools/</code> folder (its mappers contain staff names and contact details, so they are never in git):</p>
+<pre data-lang="bash"><code>node tools__build-seed.js --knowledge &lt;folder with the knowledge json files&gt;</code></pre>
+<p>The output goes to <code>data/seed/</code> (the record files, <code>manifest.js</code> and <code>validation-report.js</code>). Add <code>--strict</code> to stop on any error. <code>--base data/seed --only &lt;mapper numbers&gt;</code> adds documents sent later on top of the existing pack without re-reading every original file.</p>
+<p>A rebuilt pack loaded into local mode only refreshes records nobody has edited since the last import; anything a person changed is kept. In Supabase, re-running step 06 behaves the same way.</p>
+<h2 id="the-document-vault">The document vault</h2>
+<p><code>data/vault/</code> holds the 253 original files, laid out as <code>&lt;shared drive&gt;/&lt;folder&gt;/&lt;file&gt;</code>, exactly each file record's <code>vault_path</code>. The app opens each document straight from there. <code>node tools__build-vault.js &lt;company-data.zip&gt; &lt;vault-index.json&gt; --extra landscapers_data=&lt;landscapers_data.zip&gt;</code> rebuilds the folder from the original company zips (the index comes from <code>data-tools__vault-index.js</code>), and <code>tools__upload-vault.js</code> uploads the same files to Supabase Storage at each record's <code>storage_path</code>. Both check every file's SHA-256 against its record first, so a document can never be attached to the wrong record. <strong>Drive → Load original documents</strong> recognises each document the same way (by its SHA-256) when the app is opened by double-click.</p>
+  </main>
+  <footer>Landscapers Inc. HQ · Mount Edgecombe, Durban · <a href="../README.html">All guides</a></footer>
+  <script src="../docs__docs.js"></script>
+</body>
+</html>

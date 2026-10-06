@@ -5,15 +5,15 @@
   "type": "module",
   "description": "Landscapers Inc. HQ — plain HTML, CSS and JavaScript. Open index.html (double-click) or host the folder; no build step is needed to use it. These scripts are optional developer tools.",
   "scripts": {
-    "serve": "node tools/serve.js 8080",
-    "check": "node tools/check.js",
-    "test": "node tools/test-all.js",
-    "test:sql": "node tools/test-sql.js",
-    "test:browser": "node tools/test-browser.js",
-    "build": "node tools/build.js",
-    "sql": "node tools/gen-sql.js",
-    "seed": "node tools/build-seed.js",
-    "db:prepare": "node tools/prepare-supabase.js"
+    "serve": "node tools__serve.js 8080",
+    "check": "node tools__check.js",
+    "test": "node tools__test-all.js",
+    "test:sql": "node tools__test-sql.js",
+    "test:browser": "node tools__test-browser.js",
+    "build": "node tools__build.js",
+    "sql": "node tools__gen-sql.js",
+    "seed": "node tools__build-seed.js",
+    "db:prepare": "node tools__prepare-supabase.js"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.8",

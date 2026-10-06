@@ -5,22 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Landscapers Inc. HQ · Landscapers Inc. HQ</title>
-<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="docs/docs.css">
+<link rel="icon" href="assets__icons__favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="docs__docs.css">
 </head>
 <body>
   <header class="top">
-    <a class="brand" href="README.html"><img src="assets/landscapers-logo.jpg" alt=""><span>Landscapers Inc. HQ<small>Guides</small></span></a>
+    <a class="brand" href="README.html"><img src="assets__landscapers-logo.jpg" alt=""><span>Landscapers Inc. HQ<small>Guides</small></span></a>
     <a class="open-app" href="index.html">Open the app</a>
     <nav aria-label="Guides">
       <a href="README.html" aria-current="page">Start</a>
-      <a href="docs/USER-GUIDE.html">Staff guide</a>
-      <a href="docs/SETUP-SUPABASE.html">Go live</a>
-      <a href="docs/DEPLOY.html">Hosting</a>
-      <a href="docs/SECURITY.html">Security</a>
-      <a href="docs/DATA-PACK.html">Data pack</a>
-      <a href="docs/TROUBLESHOOTING.html">Troubleshooting</a>
-      <a href="docs/CONTRACT.html">Developers</a>
+      <a href="docs__USER-GUIDE.html">Staff guide</a>
+      <a href="docs__SETUP-SUPABASE.html">Go live</a>
+      <a href="docs__DEPLOY.html">Hosting</a>
+      <a href="docs__SECURITY.html">Security</a>
+      <a href="docs__DATA-PACK.html">Data pack</a>
+      <a href="docs__TROUBLESHOOTING.html">Troubleshooting</a>
+      <a href="docs__CONTRACT.html">Developers</a>
     </nav>
   </header>
   <main>
@@ -39,11 +39,11 @@
 <p><strong>Forgot your password?</strong> Nobody can read a password back (they are stored scrambled), but you can set a new one: double-click <code>reset-password.html</code> in the <code>landscapers-hq</code> folder, choose your name and type a new password, then sign in with it. Use the same browser as for the app. It works only on that computer, and every reset is written to the audit log and shown in everyone's notifications. An administrator can also reset anyone's password under <strong>Admin → Users</strong>.</p>
 <h3 id="optional-run-it-as-a-small-local-web-server">Optional: run it as a small local web server</h3>
 <p>This gives the same app, plus installing it on the computer and opening it offline; documents then need no extra step. It needs <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a> 18 or newer. In the <code>landscapers-hq</code> folder run:</p>
-<pre data-lang="bash"><code>node tools/serve.js 8080</code></pre>
+<pre data-lang="bash"><code>node tools__serve.js 8080</code></pre>
 <p>Then open <a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a>.</p>
 <h2 id="go-live-supabase">Go live (Supabase)</h2>
 <p>This gives everyone their own login, one shared database protected by Row Level Security, file storage, realtime updates, email, and the agent running at 05:00 and 05:30 every day even when nobody is signed in.</p>
-<ol><li><a href="docs/SETUP-SUPABASE.html">docs/SETUP-SUPABASE.html</a>: create the project, then in the app open <strong>Admin → Go live</strong>, which hands you the SQL for every step, ready to copy or download. Deploy the server code with <code>node tools/deploy-functions.js</code> and upload the original documents with <code>node tools/upload-vault.js</code>.</li><li>Put the Supabase address and the public (anon) key in <code>js/settings.js</code>. It is the only file you edit, and the app reads it straight away, opened by double-click or hosted.</li><li><a href="docs/DEPLOY.html">docs/DEPLOY.html</a>: put the app online, without the private folders, and install it on phones.</li></ol>
+<ol><li><a href="docs__SETUP-SUPABASE.html">docs__SETUP-SUPABASE.html</a>: create the project, then in the app open <strong>Admin → Go live</strong>, which hands you the SQL for every step, ready to copy or download. Deploy the server code with <code>node tools__deploy-functions.js</code> and upload the original documents with <code>node tools__upload-vault.js</code>.</li><li>Put the Supabase address and the public (anon) key in <code>js__settings.js</code>. It is the only file you edit, and the app reads it straight away, opened by double-click or hosted.</li><li><a href="docs__DEPLOY.html">docs__DEPLOY.html</a>: put the app online, without the private folders, and install it on phones.</li></ol>
 <h2 id="put-the-code-on-github">Put the code on GitHub</h2>
 <p>The <code>.gitignore</code> in the folder keeps <code>data/seed/</code>, <code>data/vault/</code>, <code>data-tools/</code> and any <code>PRIVATE</code> zip out of git, so only the code goes up.</p>
 <blockquote><p><strong>Never drag the folder into GitHub's website upload page.</strong> That ignores <code>.gitignore</code> and would publish the company data. Use git from the folder, as below.</p></blockquote>
@@ -55,19 +55,19 @@
 <pre data-lang="bash"><code>git commit -m &quot;Landscapers Inc. HQ&quot;</code></pre>
 <pre data-lang="bash"><code>git remote add origin https://github.com/&lt;you&gt;/landscapers-hq.git</code></pre>
 <pre data-lang="bash"><code>git push -u origin main</code></pre></li></ol>
-<p><code>npm run check</code> (below) also stops with an error if company data, a document or a service_role key is ever committed. Publishing the app itself is in <a href="docs/DEPLOY.html">docs/DEPLOY.html</a>.</p>
+<p><code>npm run check</code> (below) also stops with an error if company data, a document or a service_role key is ever committed. Publishing the app itself is in <a href="docs__DEPLOY.html">docs__DEPLOY.html</a>.</p>
 <h2 id="documentation">Documentation</h2>
-<div class="table"><table><tbody><tr><td><a href="docs/USER-GUIDE.html">docs/USER-GUIDE.html</a></td><td>For staff: every app, and the everyday tasks step by step</td></tr><tr><td><a href="docs/SETUP-SUPABASE.html">docs/SETUP-SUPABASE.html</a></td><td>Going live: database, logins, storage, Edge Functions, secrets, schedule</td></tr><tr><td><a href="docs/DEPLOY.html">docs/DEPLOY.html</a></td><td>Hosting, updates, installing on phones</td></tr><tr><td><a href="docs/SECURITY.html">docs/SECURITY.html</a></td><td>Who can see what, keys, POPIA, audit trail</td></tr><tr><td><a href="docs/DATA-PACK.html">docs/DATA-PACK.html</a></td><td>What was taken from the company files and how it was checked</td></tr><tr><td><a href="docs/TROUBLESHOOTING.html">docs/TROUBLESHOOTING.html</a></td><td>When something does not work</td></tr><tr><td><a href="docs/CONTRACT.html">docs/CONTRACT.html</a></td><td>Developer reference: record formats, app modules, extension points</td></tr></tbody></table></div>
+<div class="table"><table><tbody><tr><td><a href="docs__USER-GUIDE.html">docs__USER-GUIDE.html</a></td><td>For staff: every app, and the everyday tasks step by step</td></tr><tr><td><a href="docs__SETUP-SUPABASE.html">docs__SETUP-SUPABASE.html</a></td><td>Going live: database, logins, storage, Edge Functions, secrets, schedule</td></tr><tr><td><a href="docs__DEPLOY.html">docs__DEPLOY.html</a></td><td>Hosting, updates, installing on phones</td></tr><tr><td><a href="docs__SECURITY.html">docs__SECURITY.html</a></td><td>Who can see what, keys, POPIA, audit trail</td></tr><tr><td><a href="docs__DATA-PACK.html">docs__DATA-PACK.html</a></td><td>What was taken from the company files and how it was checked</td></tr><tr><td><a href="docs__TROUBLESHOOTING.html">docs__TROUBLESHOOTING.html</a></td><td>When something does not work</td></tr><tr><td><a href="docs__CONTRACT.html">docs__CONTRACT.html</a></td><td>Developer reference: record formats, app modules, extension points</td></tr></tbody></table></div>
 <h2 id="everything-is-html-css-and-javascript">Everything is HTML, CSS and JavaScript</h2>
-<ul><li>The app: HTML, CSS and JavaScript modules in <code>js/</code>. <code>js/app.bundle.js</code> is the same code as one file, which is what runs when <code>index.html</code> is double-clicked (browsers refuse to load modules from a folder); <code>js/boot.js</code> picks the right one.</li><li>The company records: JavaScript files in <code>data/seed/</code> (browsers will not read <code>.json</code> files from a folder either).</li><li>The database SQL: written by JavaScript in <code>js/sql/</code>, so there are no <code>.sql</code> files to keep in step. <strong>Admin → Go live</strong> shows it; <code>npm run sql</code> writes it to files for psql.</li><li>The server code (Edge Functions in <code>supabase/functions/</code>), the tools and the tests: JavaScript.</li><li>These guides: HTML pages.</li><li>JSON only where npm and phones require it: <code>package.json</code>, <code>package-lock.json</code> and <code>manifest.webmanifest</code>.</li></ul>
+<ul><li>The app: HTML, CSS and JavaScript modules in <code>js/</code>. <code>js__app.bundle.js</code> is the same code as one file, which is what runs when <code>index.html</code> is double-clicked (browsers refuse to load modules from a folder); <code>js__boot.js</code> picks the right one.</li><li>The company records: JavaScript files in <code>data/seed/</code> (browsers will not read <code>.json</code> files from a folder either).</li><li>The database SQL: written by JavaScript in <code>js/sql/</code>, so there are no <code>.sql</code> files to keep in step. <strong>Admin → Go live</strong> shows it; <code>npm run sql</code> writes it to files for psql.</li><li>The server code (Edge Functions in <code>supabase/functions/</code>), the tools and the tests: JavaScript.</li><li>These guides: HTML pages.</li><li>JSON only where npm and phones require it: <code>package.json</code>, <code>package-lock.json</code> and <code>manifest.webmanifest</code>.</li></ul>
 <h2 id="project-layout">Project layout</h2>
 <pre><code>index.html                the page (double-click it, or host the folder)
-js/settings.js            the only file you edit to go live (mode, Supabase address, anon key)
-js/boot.js                starts the app: js/main.js when served, js/app.bundle.js when double-clicked
-js/app.bundle.js          the whole app as one script (made by npm run build)
+js__settings.js            the only file you edit to go live (mode, Supabase address, anon key)
+js__boot.js                starts the app: js__main.js when served, js__app.bundle.js when double-clicked
+js__app.bundle.js          the whole app as one script (made by npm run build)
 sw.js, manifest.webmanifest   offline cache and phone install (when hosted)
 css/                      design tokens, layout, components, animations
-js/config.js              fixed company settings
+js__config.js              fixed company settings
 js/core/                  data layer (IndexedDB / Supabase), auth, permissions, dates, money, search, files
 js/ui/                    shell, components, forms, tables, charts, overlays
 js/schema/                every record type and its permissions (the source for the SQL)
@@ -91,9 +91,9 @@ data-tools/               PRIVATE: the scripts that rebuild the records from the
 <pre data-lang="bash"><code>npm run check</code></pre>
 <pre data-lang="bash"><code>npm run build</code></pre>
 <pre data-lang="bash"><code>npm run test:browser</code></pre>
-<ul><li><code>npm test</code> runs the unit tests (521 in 21 files): formulas, money, dates, forms, PDF layout (no overlapping text on any invoice, quote or statement), Sage, agent rules, the go-live SQL, the zip tools, the links in these guides and more.</li><li><code>npm run test:sql</code> runs all the go-live SQL against a real Postgres (PGlite), loads the company records if they are in <code>data/seed/</code>, links logins and checks Row Level Security for eight roles (51 checks with the records, 50 without).</li><li><code>npm run check</code> parses every module and checks its imports, that <code>js/app.bundle.js</code> is up to date, that every file is HTML, CSS or JavaScript, and, in a git repository, that no company data or key is committed.</li><li><code>npm run build</code> rebuilds <code>js/app.bundle.js</code>, the double-click version. Run it after changing anything in <code>js/</code> (not needed for <code>js/settings.js</code>, which is read separately).</li><li><code>npm run test:browser</code> opens the app in headless Chrome or Edge, both double-clicked and served: the records load, every app opens, documents open, an invoice PDF downloads with its logo, and Load original documents works.</li><li><code>npm run sql</code> writes the go-live SQL to <code>build/sql/</code> for psql (step 06 holds private data; <code>build/</code> is git-ignored).</li><li><code>npm run seed -- --knowledge &lt;dir&gt;</code> rebuilds the company records from the extracted knowledge files (needs <code>data-tools/</code>).</li><li><code>node tools/build-vault.js</code> rebuilds <code>data/vault/</code> from the original company zips, and <code>node tools/upload-vault.js --dry-run</code> checks every document against its record before an upload to Supabase Storage.</li></ul>
+<ul><li><code>npm test</code> runs the unit tests (521 in 21 files): formulas, money, dates, forms, PDF layout (no overlapping text on any invoice, quote or statement), Sage, agent rules, the go-live SQL, the zip tools, the links in these guides and more.</li><li><code>npm run test:sql</code> runs all the go-live SQL against a real Postgres (PGlite), loads the company records if they are in <code>data/seed/</code>, links logins and checks Row Level Security for eight roles (51 checks with the records, 50 without).</li><li><code>npm run check</code> parses every module and checks its imports, that <code>js__app.bundle.js</code> is up to date, that every file is HTML, CSS or JavaScript, and, in a git repository, that no company data or key is committed.</li><li><code>npm run build</code> rebuilds <code>js__app.bundle.js</code>, the double-click version. Run it after changing anything in <code>js/</code> (not needed for <code>js__settings.js</code>, which is read separately).</li><li><code>npm run test:browser</code> opens the app in headless Chrome or Edge, both double-clicked and served: the records load, every app opens, documents open, an invoice PDF downloads with its logo, and Load original documents works.</li><li><code>npm run sql</code> writes the go-live SQL to <code>build/sql/</code> for psql (step 06 holds private data; <code>build/</code> is git-ignored).</li><li><code>npm run seed -- --knowledge &lt;dir&gt;</code> rebuilds the company records from the extracted knowledge files (needs <code>data-tools/</code>).</li><li><code>node tools__build-vault.js</code> rebuilds <code>data/vault/</code> from the original company zips, and <code>node tools__upload-vault.js --dry-run</code> checks every document against its record before an upload to Supabase Storage.</li></ul>
   </main>
   <footer>Landscapers Inc. HQ · Mount Edgecombe, Durban · <a href="README.html">All guides</a></footer>
-  <script src="docs/docs.js"></script>
+  <script src="docs__docs.js"></script>
 </body>
 </html>

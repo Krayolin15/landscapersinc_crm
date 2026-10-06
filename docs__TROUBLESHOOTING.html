@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Troubleshooting · Landscapers Inc. HQ</title>
+<link rel="icon" href="../assets__icons__favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs__docs.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="../README.html"><img src="../assets__landscapers-logo.jpg" alt=""><span>Landscapers Inc. HQ<small>Guides</small></span></a>
+    <a class="open-app" href="../index.html">Open the app</a>
+    <nav aria-label="Guides">
+      <a href="../README.html">Start</a>
+      <a href="../docs__USER-GUIDE.html">Staff guide</a>
+      <a href="../docs__SETUP-SUPABASE.html">Go live</a>
+      <a href="../docs__DEPLOY.html">Hosting</a>
+      <a href="../docs__SECURITY.html">Security</a>
+      <a href="../docs__DATA-PACK.html">Data pack</a>
+      <a href="../docs__TROUBLESHOOTING.html" aria-current="page">Troubleshooting</a>
+      <a href="../docs__CONTRACT.html">Developers</a>
+    </nav>
+  </header>
+  <main>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="the-app-does-not-start">The app does not start</h2>
+<div class="table"><table><thead><tr><th>What you see</th><th>Fix</th></tr></thead><tbody><tr><td>A blank page, or the splash stays at <em>Waking up the garden…</em></td><td>The folder is incomplete or was opened inside the zip. Unzip the whole zip (right-click → <strong>Extract All…</strong>) to a short place such as <code>C:\LSI</code>, then double-click <code>index.html</code> inside the <code>landscapers-hq</code> folder, next to the <code>js</code>, <code>css</code> and <code>data</code> folders</td></tr><tr><td><em>The company data is missing</em></td><td>Local mode needs the company records in <code>data/seed/</code>, exactly as they come in the zip. Unzip the zip again. (Supabase mode never needs this folder)</td></tr><tr><td><em>The app's files are incomplete</em></td><td>A file under <code>js/</code> is missing. Unzip the whole zip again</td></tr><tr><td><em>Supabase library failed to load</em></td><td><code>vendor__supabase.min.js</code> is missing from the upload. Upload the whole <code>vendor/</code> folder</td></tr><tr><td>Anything else</td><td>Reload once. If it repeats, open the browser console (F12) and send the red error text to your administrator</td></tr></tbody></table></div>
+<h2 id="signing-in">Signing in</h2>
+<ul><li><strong>Forgot password</strong>: in Supabase mode, use <strong>Forgot password</strong> on the sign-in screen, or ask an admin (<strong>Admin → Users → Reset</strong>). In local mode, an admin resets it under <strong>Admin → Users</strong>, or, on the computer itself, open <code>reset-password.html</code> in the app folder, choose your name and set a new password (same browser as the app; close any open tab of the app first).</li><li><strong>&quot;This account is suspended&quot;</strong>: an admin must reactivate it.</li><li><strong>The reset link opens the wrong site</strong>: set the Site URL and Redirect URLs in Supabase (<strong>Authentication → URL Configuration</strong>) to the live address.</li><li><strong>Signed in, but the lists are empty (Supabase)</strong>: the login is not linked to a staff profile. Run step 08 from <strong>Admin → Go live</strong> for imported staff, or add the person from <strong>Admin → Users</strong>.</li></ul>
+<h2 id="someone-cant-see-something">Someone can't see something</h2>
+<p>This is usually the permissions working as intended (<a href="SECURITY.html">SECURITY.html</a>). Check the person's role under <strong>Admin → Users</strong>, and whether the item is:</p>
+<ul><li>in the FINANCE or HR drive;</li><li>marked confidential;</li><li>an HR or incident form response;</li><li>a restricted spreadsheet.</li></ul>
+<h2 id="emails-are-not-sending">Emails are not sending</h2>
+<ul><li>Mail shows <em>Email is not configured</em>: set the <code>RESEND_API_KEY</code> and <code>MAIL_FROM</code> secrets (<a href="SETUP-SUPABASE.html#secrets">SETUP-SUPABASE.html</a>).</li><li>Resend rejects the sender: the <code>MAIL_FROM</code> domain is not verified in Resend.</li><li>Agent reminders stay <em>queued</em>: the same two secrets are missing for <code>agent-run</code>.</li><li>WhatsApp reminders wait in <strong>Autonomous Core → Approvals</strong> until someone taps send, unless the Twilio secrets are set.</li></ul>
+<h2 id="the-0500--0530-agent-did-not-run">The 05:00 / 05:30 agent did not run</h2>
+<ol><li><p>In the Supabase SQL editor:</p>
+<pre data-lang="sql"><code>select jobname, status, start_time, return_message from cron.job_run_details order by start_time desc limit 20;</code></pre></li><li><em>no agent_cron_secret in Vault</em>: create the Vault secret (step 7 of <a href="SETUP-SUPABASE.html#7-the-247-schedule">SETUP-SUPABASE.html</a>).</li><li>HTTP 401 from <code>agent-run</code>: the Vault secret and the <code>CRON_SECRET</code> function secret differ, or the function was deployed with the login check on. Deploy it again with <code>node tools__deploy-functions.js --only agent-run --project-ref &lt;your project ref&gt;</code>.</li><li>HTTP 404: the project ref in step 07 was not filled in. In <strong>Admin → Go live</strong>, type your project ref at step 07 and run that step again.</li></ol>
+<p>While someone has the app open, the in-browser agent also runs the same jobs. <strong>Autonomous Core</strong> shows which agent ran each job.</p>
+<h2 id="phones-show-an-old-version">Phones show an old version</h2>
+<p>App code loads fresh on every start, so close the app completely and open it again. If it still looks old: browser settings → site settings → clear storage for the app's address, then open it again. Local-mode data lives in that storage, so export a backup first.</p>
+<h2 id="photos-or-documents-do-not-open">Photos or documents do not open</h2>
+<ul><li><strong>A yellow message says the app folder sits too deep</strong>, or documents say <em>not found</em> although they are in <code>data/vault/</code>: Windows cannot open files whose full path is longer than 260 characters. Move the <code>landscapers-hq</code> folder to a short place such as <code>C:\LSI</code> and open <code>index.html</code> from there.</li><li><em>Document not found</em>: the record points to an original company document whose file is not where the app looks. Local mode: the <code>data/vault/</code> folder is missing or incomplete; unzip the zip again. Supabase: the documents were not uploaded yet; run <code>node tools__upload-vault.js</code> (<a href="SETUP-SUPABASE.html#9-upload-the-documents">SETUP-SUPABASE.html</a>).</li><li><em>Its contents cannot be read while the app is opened from the folder</em>: a feature (Sheets import, a slide PDF, an attachment) needs the document's contents. Go to <strong>Drive → Load original documents</strong> once and choose the <code>data/vault</code> folder, or run the app through the local web server (README).</li><li><strong>Load original documents says files differ from their records</strong>: those files were changed since the zip was made, so they were left out. Unzip the original zip again to get the unchanged files.</li><li><em>You do not have access to the attachment</em>: the file is confidential or in a restricted drive.</li></ul>
+<h2 id="spreadsheets">Spreadsheets</h2>
+<ul><li>A formula shows <code>#REF!</code>: it pointed at rows, columns or a tab that was deleted.</li><li><code>#NAME?</code>: an unknown function name. Type <code>=</code> and the first letters of a function to see matching names.</li><li>Two people edited the same sheet: both sets of changes are kept. When you both changed the same cell, the last save wins, and the app says when someone else's edit arrives.</li></ul>
+<h2 id="for-administrators-and-developers">For administrators and developers</h2>
+<pre data-lang="bash"><code>npm test</code></pre>
+<pre data-lang="bash"><code>npm run test:sql</code></pre>
+<pre data-lang="bash"><code>npm run check</code></pre>
+<pre data-lang="bash"><code>npm run test:browser</code></pre>
+<ul><li><code>npm test</code> runs the unit tests.</li><li><code>npm run test:sql</code> checks the go-live SQL and every access rule in a real Postgres.</li><li><code>npm run check</code> loads every module to find broken imports, and says when <code>js__app.bundle.js</code> is out of date: after changing anything in <code>js/</code>, run <code>npm run build</code>, or a double-clicked <code>index.html</code> keeps running the old code.</li><li><code>npm run test:browser</code> opens the app in headless Chrome or Edge, both double-clicked and served.</li><li><strong>Admin → System</strong> also has a built-in self-test.</li></ul>
+  </main>
+  <footer>Landscapers Inc. HQ · Mount Edgecombe, Durban · <a href="../README.html">All guides</a></footer>
+  <script src="../docs__docs.js"></script>
+</body>
+</html>

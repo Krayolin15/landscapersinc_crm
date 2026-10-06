@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The data folder · Landscapers Inc. HQ</title>
+<link rel="icon" href="../assets__icons__favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../docs__docs.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="../README.html"><img src="../assets__landscapers-logo.jpg" alt=""><span>Landscapers Inc. HQ<small>Guides</small></span></a>
+    <a class="open-app" href="../index.html">Open the app</a>
+    <nav aria-label="Guides">
+      <a href="../README.html">Start</a>
+      <a href="../docs__USER-GUIDE.html">Staff guide</a>
+      <a href="../docs__SETUP-SUPABASE.html">Go live</a>
+      <a href="../docs__DEPLOY.html">Hosting</a>
+      <a href="../docs__SECURITY.html">Security</a>
+      <a href="../docs__DATA-PACK.html">Data pack</a>
+      <a href="../docs__TROUBLESHOOTING.html">Troubleshooting</a>
+      <a href="../docs__CONTRACT.html">Developers</a>
+    </nav>
+  </header>
+  <main>
+<h1 id="the-data-folder">The data folder</h1>
+<p>Both folders here are <strong>private</strong> company data, and both come filled in the zip:</p>
+<ul><li><code>data/seed/</code>: the company records, one JavaScript file per record type plus <code>manifest.js</code>. The app loads them on its first start (local mode). See <a href="../docs__DATA-PACK.html">the data pack</a>.</li><li><code>data/vault/</code>: the 253 original documents, filed as <code>&lt;shared drive&gt;/&lt;folder&gt;/&lt;file&gt;</code>. The app opens each document straight from here. Every file matches its record's SHA-256, so a document can never be attached to the wrong record.</li></ul>
+<p>Never upload <code>data/seed/</code> or <code>data/vault/</code> to a website or commit them to git (<code>.gitignore</code> already excludes them). In Supabase mode the records are loaded once with step 06 from <strong>Admin → Go live</strong>, the documents are uploaded to Storage with <code>node tools__upload-vault.js</code>, and these folders stay off the website. See the <a href="../README.html">README</a>.</p>
+  </main>
+  <footer>Landscapers Inc. HQ · Mount Edgecombe, Durban · <a href="../README.html">All guides</a></footer>
+  <script src="../docs__docs.js"></script>
+</body>
+</html>
