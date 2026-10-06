@@ -9,7 +9,7 @@
 // 8. the project holds only HTML, CSS and JavaScript (plus the JSON npm and phones need, images and the documents)
 // 9. in a git repository: no company data, document, private zip or .env is committed, and no service_role key
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
-import { join, dirname, resolve, relative } from 'node:path';
+import { join, dirname, resolve, relative, sep } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
@@ -103,10 +103,10 @@ for (const m of reg.matchAll(/\{\s*id:\s*'([\w-]+)',\s*name:/g)) {
   if (text !== null && (!existsSync(join(root, BUNDLE)) || readFileSync(join(root, BUNDLE), 'utf8') !== text)) err(join(root, BUNDLE), 'out of date — run "npm run build" (index.html opened from the folder runs this file)');
 }
 
-// HTML, CSS and JavaScript only. Allowed besides: the JSON npm and phones need, images, and the git/hosting dot-files.
+// Application code is HTML/CSS/JavaScript. Supabase deployment SQL is allowed only under supabase/; JSON, images and hosting dot-files are also allowed.
 // The original company documents (data/vault) and generated, git-ignored folders are not code and are skipped.
 {
-  const ALLOWED = /\.(html|css|js|png|jpe?g|svg|ico|webp|gif)$/i;
+  const ALLOWED = /\.(html|css|js|sql|png|jpe?g|svg|ico|webp|gif)$/i;
   const NAMED = new Set(['package.json', 'package-lock.json', 'manifest.webmanifest', '.gitignore', '.gitattributes', '.nojekyll']);
   const SKIP = new Set(['node_modules', '.git', 'build', 'test-results'].map(d => join(root, d)).concat([join(root, 'data', 'vault'), join(root, 'supabase', '.temp')]));
   const GENERATED = new Set([join(root, 'supabase', 'config.toml')]); // written by tools/deploy-functions.js, git-ignored
@@ -114,7 +114,8 @@ for (const m of reg.matchAll(/\{\s*id:\s*'([\w-]+)',\s*name:/g)) {
     for (const f of readdirSync(d)) {
       const p = join(d, f);
       if (statSync(p).isDirectory()) { if (!SKIP.has(p) && f !== '.claude') walk(p); continue; }
-      if (!ALLOWED.test(f) && !NAMED.has(f) && !GENERATED.has(p)) err(p, 'not HTML, CSS or JavaScript — convert it (the owner wants an all HTML/CSS/JS project)');
+      if (!ALLOWED.test(f) && !NAMED.has(f) && !GENERATED.has(p)) err(p, 'unsupported project file type');
+      if (/\.sql$/i.test(f) && !p.startsWith(join(root, 'supabase') + sep)) err(p, 'SQL files are only allowed under supabase/');
     }
   })(root);
 }

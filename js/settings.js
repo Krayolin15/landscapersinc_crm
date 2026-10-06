@@ -17,6 +17,6 @@
    ========================================================================== */
 globalThis.LSI_SETTINGS = {
   mode: 'local',                 // 'local' | 'supabase'
-  SUPABASE_URL: '',              // e.g. 'https://abcdefghijklmnopqrst.supabase.co'
-  SUPABASE_ANON_KEY: ''          // the public "anon" key — never service_role
+  SUPABASE_URL: '',              // your live project URL, e.g. 'https://abcdefghijklmnopqrst.supabase.co'
+  SUPABASE_ANON_KEY: ''          // your public anon/publishable key — never service_role
 };

@@ -16,5 +16,6 @@ supabase/.temp/
 
 # the original company documents, and local secrets
 data/vault/
+supabase/seed.sql
 .env
 .env.*
