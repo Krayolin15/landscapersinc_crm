@@ -249,6 +249,25 @@ async function runMode(mode, exe) {
       const nav = await evaluate(`[...document.querySelectorAll('a')].some(a => /Load original documents/.test(a.textContent))`);
       ok('served: no Load original documents step is needed', !nav);
     }
+    // 7. forgot the password: reset-password.html sets a new one, and the app accepts it
+    const pw2 = `Reset-${randomBytes(12).toString('base64url')}-7`;
+    await evaluate(`sessionStorage.clear(); localStorage.clear()`); // signed out, as someone who forgot their password
+    await S('Page.navigate', { url: base.replace(/index\.html$/, 'reset-password.html') });
+    await waitFor(`document.getElementById('who')`, 20000, 'the reset page');
+    await evaluate(`(() => { document.getElementById('who').value = 'prof-browser-test'; document.getElementById('pw1').value = document.getElementById('pw2').value = ${JSON.stringify(pw2)}; document.querySelector('.reset-form button').click(); })()`);
+    await waitFor(`/Done\\./.test(document.body.innerText)`, 30000, 'the reset to finish');
+    const logged = await evaluate(`(async () => { const d = await new Promise(ok => { const r = indexedDB.open('landscapers-hq'); r.onsuccess = () => ok(r.result); }); const all = await new Promise(ok => { const r = d.transaction('records').objectStore('records').getAll(); r.onsuccess = () => ok(r.result); }); d.close();
+      return { audit: all.filter(x => x.col === 'audit_log' && x.v.action === 'password_reset').length, notes: all.filter(x => x.col === 'notifications' && x.v.kind === 'security').length }; })()`);
+    ok('reset-password.html sets a new password, logs it and tells everyone', logged.audit === 1 && logged.notes >= 1, `${logged.audit} audit entry, ${logged.notes} notifications`);
+    await S('Page.navigate', { url: base });
+    await waitFor(`[...document.querySelectorAll('.user-pick button b')].some(b => b.textContent === 'Zz')`, 60000, 'the sign-in screen after the reset');
+    await evaluate(`[...document.querySelectorAll('.user-pick button')].find(b => (b.querySelector('b') || {}).textContent === 'Zz').click()`);
+    await sleep(100);
+    await evaluate(`document.querySelector('input[type=password]').focus()`);
+    await S('Input.insertText', { text: pw2 });
+    await evaluate(`document.querySelector('form button[type=submit]').click()`);
+    await waitFor(`document.querySelector('#main .view')`, 30000, 'signing in with the new password');
+    ok('signs in with the new password', true);
     ok('no browser errors in this run', !problems.length, problems.slice(0, 8).join(' | '));
   } catch (e) {
     ok(`${mode} run`, false, e.message);

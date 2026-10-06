@@ -85,7 +85,7 @@ async function drawLocal(panel, onSignedIn) {
     h('h2', 'Welcome back'), h('p.muted', 'Tap your name and enter your password.'),
     people.length ? grid : h('div.callout.warn', icon('triangle-alert'), h('div', 'No accounts exist yet. The company data pack did not load — reload the page.')),
     form,
-    h('p.xs.faint', { style: 'margin-top:18px' }, icon('hard-drive', 12), ' Local mode — data is stored on this device. Forgot your password? Ask an administrator to reset it in Admin → Users.'));
+    h('p.xs.faint', { style: 'margin-top:18px' }, icon('hard-drive', 12), ' Local mode — data is stored on this device. Forgot your password? An administrator can reset it in Admin → Users, or open reset-password.html in the app folder on this computer.'));
   if (selected) setTimeout(() => pw.focus(), 200);
 }
 

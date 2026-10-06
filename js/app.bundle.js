@@ -29603,7 +29603,7 @@ ${b[1].map((s) => `- ${s}`).join("\n")}` : "" }));
       h("p.muted", "Tap your name and enter your password."),
       people.length ? grid : h("div.callout.warn", icon("triangle-alert"), h("div", "No accounts exist yet. The company data pack did not load \u2014 reload the page.")),
       form,
-      h("p.xs.faint", { style: "margin-top:18px" }, icon("hard-drive", 12), " Local mode \u2014 data is stored on this device. Forgot your password? Ask an administrator to reset it in Admin \u2192 Users.")
+      h("p.xs.faint", { style: "margin-top:18px" }, icon("hard-drive", 12), " Local mode \u2014 data is stored on this device. Forgot your password? An administrator can reset it in Admin \u2192 Users, or open reset-password.html in the app folder on this computer.")
     );
     if (selected) setTimeout(() => pw.focus(), 200);
   }
